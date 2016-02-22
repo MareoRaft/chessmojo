@@ -1,0 +1,55 @@
+$jss = {
+         '.white' => {
+                     'fill' => '#becfcf',
+                     'stroke' => '#ffffff'
+                   },
+         '#preferences' => {
+                           'height' => '58.4vmin'
+                         },
+         '#promote' => {
+                       'left' => '165.6px',
+                       'top' => '293.49999999999994px'
+                     },
+         '#html' => {
+                    'width' => '1224px'
+                  },
+         '#login' => {
+                     'height' => '3.6vmin'
+                   },
+         '.button:active' => {
+                             'background-color' => 'rgb(77, 255, 255)'
+                           },
+         '#roomname' => {
+                        'color' => 'rgb(77, 77, 255)'
+                      },
+         'h2:active' => {
+                        'color' => 'rgb(77, 255, 255)'
+                      },
+         'h2:hover' => {
+                       'color' => 'rgb(77, 77, 255)'
+                     },
+         '.button:hover' => {
+                            'background-color' => 'rgb(77, 77, 255)'
+                          },
+         '.blacksquares' => {
+                            'fill' => '#4d4dff',
+                            'background-color' => 'rgb(77, 77, 255)'
+                          },
+         '.whitesquares' => {
+                            'fill' => '#4dffff',
+                            'background-color' => 'rgb(77, 255, 255)'
+                          },
+         '#body' => {
+                    'width' => '1224px'
+                  },
+         '.black' => {
+                     'fill' => '#444444',
+                     'stroke' => '#000000'
+                   }
+       };
+
+
+$sound = 1;
+
+$highlight = "yellow";
+

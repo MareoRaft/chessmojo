@@ -1,0 +1,214 @@
+%###################################### FORMATTING #######################################
+function updateWidth() { // a fix due to lack of css support for calc( vw )
+	var vw = $(window).width() / 100
+	var vh = $(window).height() / 100
+	var vmin = Math.min( vw, vh )
+	var width = 70*vmin + 100*vw
+	jss.set( '#html', { 'width':width+'px' } )
+	jss.set( '#body', { 'width':width+'px' } )
+	var left = 100/2*vw - 54/2*vmin // this is for the promote pop up box...
+	var top = 100/2*vh - 30/2*vmin
+	jss.set( '#promote', { 'left':left+'px', 'top':top+'px' } )
+}
+$(document).ready( function(){ updateWidth(); $('#promote').hide() } )
+$(window).on('resize',updateWidth)
+
+%####################################### VARIABLES #######################################
+var ws
+var height = 3.6
+var lcmoves // for last clicked moves. // great because we don't have to send to server.
+var lmove // for last move (used to unhighlight)
+var checkmated = 0
+var originaljss = {
+	'.white': { 'stroke':'#fff', 'fill':'#becfcf' },
+	'.black': { 'stroke':'#000', 'fill':'#444' },
+	'.whitesquares': { 'fill':'#4dffff', 'background-color':'#4dffff' },
+	'.blacksquares': { 'fill':'#4d4dff', 'background-color':'#4d4dff' },
+	'h2:hover': { 'color':'#4d4dff' },
+	'h2:active': { 'color':'#4dffff' },
+	'.button:hover': { 'background-color':'#4d4dff' },
+	'.button:active': { 'background-color':'#4dffff' },
+	'#roomname': { 'color':'#4d4dff' },
+}
+var originalprefs = { 'jss':originaljss, 'sound':1, 'highlight':"yellow" }
+var latestprefs = {}
+var userprefs = {}
+<% my $str=''; if( $username ne 'default' ){ $str = mojo::getUserPrefs($username,'directembed') } %><%== $str; %>
+var username = '<%== $username; %>';
+var roomname = '<%== $roomname; %>';
+var colorrequested = '<%== $colorrequested; %>' // this is passed as a ws param, which mojo then checks and possibly grants.
+setPrefs(originalprefs)
+if ("WebSocket" in window){ ws = new WebSocket('<%== url_for('socket')->to_abs %>'+"?roomname=$roomname&username=$username&colorrequested=$colorrequested") }
+else{ alert( 'Your browser does not support websockets, which are essential for this program.') }
+%#start(colorrequested) // websocket must be established before we use it, of course
+%#	ws.send( JSON.stringify({ 'command':'setroom', 'roomname':roomname }) )
+%#	if( colorrequested !== 'undefined' ){ ws.send(JSON.stringify({ 'command':'setcolor', 'colorrequested':colorrequested })) }
+
+%####################################### FUNCTIONS #######################################
+function clunk() {
+	if( $('input[type=checkbox][name=sound]').is(':checked') ){	document.getElementById('clunk').play() }
+}
+function uniqueColor() {
+	colorw = jss.get('.whitesquares').fill
+	colorb = jss.get('.blacksquares').fill
+	return 'purple'
+}
+function changeColor( object, color, fill ) {
+	var colortopseudo = {}; colortopseudo['white'] = 'active'; colortopseudo['black'] = 'hover';
+	if( object == 'square' ){
+		jss.set( '.button:'+colortopseudo[color], { 'background-color':fill } )
+		jss.set( 'h2:'+colortopseudo[color], { 'color':fill } )
+		jss.set( '.'+color+'squares', { 'background-color':fill, 'fill':fill })
+		jss.set( '#roomname', { 'color':fill } )
+	}
+	else if( object == 'piece' ) jss.set( '.'+color, { 'fill':fill } );
+	else if( object == 'stroke' ) jss.set( '.'+color, { 'stroke':fill } );
+}
+function changeHeight() {
+	jss.set( '#login', { 'height':height+'vh' } )
+	height = 62-height
+	jss.set( '#preferences', { 'height':height+'vh' } )
+}
+function unfillSquares(coords) {
+	for (i=0; i<coords.length; ++i){
+		$('#'+coords[i]).removeAttr('style')
+	}
+}
+function promoteTo(type) {
+	ws.send( JSON.stringify({ 'command':'promote', 'type':type }) )
+	$('#promote').hide()
+}
+function start(colorwanted) {
+	var roomnamewanted = ( $('#roomname').val() || roomname || 'Mojo' )
+%#	var roomnamewanted = ( $('#roomname').val() || roomname ); if( roomnamewanted === 'undefined' ){ roomnamewanted = 'Mojo' }
+%#	var roomnamewanted = 'beef'
+	ws.send( JSON.stringify({ 'command':'setroom', 'roomname':roomnamewanted }) )
+	if( colorwanted !== 'undefined' ){ ws.send(JSON.stringify({ 'command':'setcolor', 'colorrequested':colorwanted })) }
+}
+$(document).ready( function() {
+	$('input[value=Login]').click(setUsername)
+	$('#username').keyup( function(event) { if( event.which==13 ){
+		if( $(this).val() == 'finish' ){
+			ws.send( JSON.stringify({'command': 'finish' }) )
+		}
+		else{
+			setUsername()
+		}
+	} } )
+	$('#highlight').keyup( function(event) { if( event.which==13 ){
+		userprefs.highlight = $(this).val()
+	} } )
+	$('.inputcolor').keyup( function(event) { if( event.which==13 ){
+		var object = $(this).data('object')
+		var color = $(this).data('color')
+		var fill = $(this).val()
+		changeColor( object, color, fill )
+	}})
+	$('#start').click( function(){
+		start( $('#selectcolor').val() )
+	})
+	$('#queen, #rook, #bishop, #knight').click( function(){ promoteTo($(this).attr('id')) } ) // unless we call a function with NO parameters, the anonymous function is necessary.
+})
+
+%################################# PREFERENCES FUNCTIONS #################################
+function setPrefs(prefs) {
+	Object.keys(prefs.jss).forEach( function (key) {
+		if( !key.match(/^#square|^#login$|^#preferences$/i) ){ jss.set( key, prefs.jss[key] ) }
+	})
+	$('input[type=checkbox][name=sound]').prop('checked',prefs.sound)
+	userprefs.highlight = prefs.highlight
+}
+function resetPrefs() {
+	setPrefs(originalprefs)
+	if(typeof(userprefs) !== 'undefined'){ setPrefs(userprefs) }
+	setPrefs(latestprefs) // latest meaning most recent save
+}
+function loadPrefs(prefs) {
+	setPrefs(originalprefs)
+	if( prefs !== '' ){
+		userprefs = prefs
+		setPrefs(userprefs)
+	}
+	$('#currentusername').html('You are logged in as '+username+'.')
+}
+function savePrefs() {
+	var latestjss = jss.get() // latest meaning most recent save
+	var latestsound = $('input[type=checkbox][name=sound]').is(':checked')
+	var latesthighlight = ( $('#highlight').val() || userprefs.highlight ); //alert('latesthighglight is '+latesthighlight)
+	latestprefs = { 'jss':latestjss, 'sound':latestsound, 'highlight':latesthighlight }
+	ws.send( JSON.stringify({ 'command':'saveuserprefs', 'username':username, 'prefs':latestprefs }) )
+}
+function setUsername() {
+	username = $('#username').val()
+	if( username == '' ){ $('#login > div').html('You are not logged in.') }
+	else{ ws.send( JSON.stringify({ 'command':'getuserprefs', 'username':username }) ) }
+}
+function sendCoord(evt) {
+	x = evt.currentTarget.getAttribute('x')
+	y = evt.currentTarget.getAttribute('y')
+	ws.send( JSON.stringify({'command': 'squareclicked', 'x': x, 'y': 9-y }) )
+}
+function sendMessage(evt,message) {
+		ws.send( JSON.stringify({'command': 'donothing', 'message': message}) )
+}
+ws.onmessage = function(event) {
+	var json = JSON.parse(event.data)
+	if( typeof(json.message) !== 'undefined' ){
+		$('#container').append( json.message+'".' + '<br /><br />' )
+	}
+	if( json.command=='loadprefs' ){
+		loadPrefs(json.prefs)
+	}
+	else if( json.command=='setcolor' ){
+		$('#currentcolor').html('You are '+json.colorrequested+'.')
+	}
+	else if( json.command=='setroom' ){
+		$('#currentroom').html('You are in room <a id="roomname">'+json.roomname+'</a>.')
+	}
+	else if( json.command=='fillsquares' ){
+		if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+		for (i=0; i<json.moves.length; ++i){
+			$('#'+json.moves[i]).attr('style',"opacity:0.5")
+		}
+		lcmoves = json.moves
+	}
+	else if( json.command=='promotequestion' ){
+		$('#promotepieces > div > svg > svg').removeClass('white black').addClass(json.promotecolor)
+		$('#promote').show()
+	}
+	else if( json.command=='checkmate' && !checkmated ){
+		alert( 'The '+json.losercolor+' king has been captured.  '+json.winnercolor+' wins!' )
+		checkmated = 1
+	}
+	else if( json.command=='promote' ){
+		$('#'+json.IDtopromote).empty()
+		$('#'+json.type+' svg > svg > g').clone().appendTo('#'+json.IDtopromote)
+	}
+	else if( json.command=='placepieces' ){
+		if( typeof(lmove) !== 'undefined' ){ jss.remove( '#square'+lmove.x+(9-lmove.y) ) }
+		for(i=0; i<json.pieces.length; ++i){
+			$('#'+json.pieces[i].ID).attr('x',json.pieces[i].x)
+			$('#'+json.pieces[i].ID).attr('y',9-json.pieces[i].y)
+		}
+	}
+	else if( json.command=='move' ){
+		clunk()
+		if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+		if( typeof(lmove) !== 'undefined' ){ jss.remove( '#square'+lmove.x+(9-lmove.y) ) }
+		$('#'+json.ID).attr('x',json.x)
+		$('#'+json.ID).attr('y',9-json.y)
+		jss.set( '#square'+json.x+json.y, { 'fill':userprefs.highlight } )
+		lmove = { 'x':json.x, 'y':9-json.y }
+	}
+	if( typeof(json.IDtoremove) !== 'undefined' ){
+		$('#'+json.IDtoremove).attr('x',-1)
+		$('#'+json.IDtoremove).attr('y',-1)
+	}
+}
+ws.onopen = function(event) {
+%#	$('#container').append(' jsworking. ')
+%#	sendMessage(event,'WebSocket support works! ♥')
+}
+ws.onclose = function() {
+	alert('browser websocket closing! :)  Connection closed, goodbye!')
+}

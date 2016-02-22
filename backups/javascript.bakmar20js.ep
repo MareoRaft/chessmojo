@@ -1,0 +1,87 @@
+var ws
+var lcmoves // great because we don't have to send to server.  this IS local, will not show up on opponent's computer
+var height = 3.6
+
+if ("WebSocket" in window) ws = new WebSocket('<%= url_for('socket')->to_abs."?room=$roomname" %>');
+if(typeof(ws) !== 'undefined') {
+/*	$(document).ready(function(){
+	  $(".inputcolor").keyup(function(event){
+		alert(event.which);
+	  });
+	});*/
+/*	function changeColor(object,color,fill){ if( window.event.which==13 ){*/
+
+
+	$(document).ready(function(){
+		$(".inputcolor").keyup(function(event){ if( event.which==13 ){
+			var object = $(this).data('object')
+			var color = $(this).data('color'); alert ('before')
+			var fill = $(this).val(); alert(fill)
+			var colortopseudo = {}; colortopseudo['white'] = 'active'; colortopseudo['black'] = 'hover';
+			if( object == 'square' ){
+				document.styleSheets[1].insertRule('.button:'+colortopseudo[color]+' { background-color: '+fill+' }', 0)
+				document.styleSheets[1].insertRule('h2:'+colortopseudo[color]+' { color: '+fill+' }', 0)
+				document.styleSheets[1].insertRule('.'+color+'squares { background-color: '+fill+'; fill: '+fill+' }', 0)
+			}
+			else if( object == 'piece' ) document.styleSheets[1].insertRule('.'+color+' { fill: '+fill+' }', 0);
+			else if( object == 'stroke' ) document.styleSheets[1].insertRule('.'+color+' { stroke: '+fill+' }', 0);
+			alert('after')
+		}})
+	})
+
+
+	function changeHeight() {
+		document.getElementById('login').style.height = height+"vmin"
+		height = 62-height
+		document.getElementById('preferences').style.height = height+"vmin"
+	}
+	function unfillSquares(coords) {
+		for (i=0; i<coords.length; ++i){
+			document.getElementById(coords[i]).removeAttribute('style')
+		}
+	}
+	function sendCoord(evt) {
+		x = evt.currentTarget.getAttribute('x')
+		y = evt.currentTarget.getAttribute('y')
+		ws.send( JSON.stringify({'command': 'squareclicked', 'x': x, 'y': 9-y}) )
+	}
+	function sendMessage(evt,message) {
+			ws.send( JSON.stringify({'command': 'donothing', 'message': message}) )
+	}
+	ws.onmessage = function (event) {
+		var json = JSON.parse(event.data)
+		if( typeof(json.y) !== 'undefined' ){ json.y = 9-json.y }
+
+		//document.getElementById('container').innerHTML += ' Command is "'+json.command+'".' + '<br />'
+		if( typeof(json.message) !== 'undefined' ){
+			document.getElementById('container').innerHTML += ' message is "'+json.message+'".' + '<br /><br />'
+		}
+
+		if( json.command=='fillsquares' ){
+			if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+			for (i=0; i<json.moves.length; ++i){
+				document.getElementById(json.moves[i]).setAttribute('style',"opacity:0.5")
+			}
+			lcmoves = json.moves
+		}
+
+		if( json.command=='movepiece' ){
+			if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+			document.getElementById(json.ID).setAttribute('x',json.x)
+			document.getElementById(json.ID).setAttribute('y',json.y)
+		}
+		if( typeof(json.IDtoremove) !== 'undefined' ){
+			document.getElementById(json.IDtoremove).setAttribute('x',-1)
+			document.getElementById(json.IDtoremove).setAttribute('y',-1)
+		}
+
+
+	}
+	ws.onopen = function (event) {
+		document.getElementById('container').innerHTML += ' jsworking. '
+		sendMessage(event,'WebSocket support works! ♥')
+	}
+}
+else {
+	document.body.innerHTML += 'Browser does not support WebSockets.'
+}

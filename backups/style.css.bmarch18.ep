@@ -1,0 +1,148 @@
+*{
+	cursor: default;
+}
+html, body{
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	font-size: 62.5%; /* 1 rem will now be equivalent to 10px (but adjust with page) ]*/
+}
+svg{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+path{
+	stroke-width: 1.5;
+}
+.onepointsix{
+	stroke-width: 1.6;
+	stroke-linecap: round;
+}
+
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+
+.white{
+	stroke: #fff;
+	fill: #becfcf;
+}
+.black{
+	stroke: #000;
+	fill: #363636;
+}
+.whitesquares{
+	fill: <%== $whitesquares; %>;
+	background-color: <%== $whitesquares; %>;
+}
+.blacksquares{
+	fill: <%== $blacksquares; %>;
+	background-color: <%== $blacksquares; %>;
+}
+
+
+#container{
+	font-size: 1.3rem;
+}
+#left{
+	float: left;
+	background: white;
+	width: 50vmin; /*width is applied to the CONTENT.  padding therefore INCREASES the width even though it's on the inside of the box*/
+	height: 100%;
+	padding-left: 10vmin;
+	padding-right: 10vmin;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.6rem;
+	text-align: center;
+}
+.dropdown{
+	color: #bbb;
+	height: 3.6vmin;
+	overflow: hidden;
+	transition: height 1s ease;
+}
+#login{
+	height: 58.4vmin;
+}
+h2{
+	margin: 0px;
+}
+h2:hover{
+	color: <%== $blacksquares; %>;
+}
+h2:active{
+	color: <%== $whitesquares; %>;
+}
+
+#username{
+	width: 30vmin;
+	margin: auto;
+}
+input[type=button]{
+}
+
+.button{
+	border-radius: 8px;
+	background-color: #bbb;
+	color: white;
+	padding-top: 3.1vmin;
+	padding-bottom: 3.1vmin;
+	text-align: center;
+}
+.button:hover{
+	background-color: <%== $blacksquares; %>;
+}
+.button:active{
+	background-color: <%== $whitesquares; %>;
+}
+
+
+
+.displaypiece{
+	text-align: left;
+	display: inline-block;
+	height: 10vmin;
+	width: 10vmin;
+}
+.descriptionbox{
+	padding-top:0.8vmin;
+	display: inline-block;
+	text-align: center;
+%#	background-color: pink;
+	height: 9.2vmin;
+	width: 14.25vmin;
+}
+.descriptionbox p{
+%#	vertical-align: middle;
+}
+.descriptionbox span{
+%#	vertical-align: middle;
+}
+.smallsvg{
+	display: inline-block;
+	height: 10vmin;
+	width: 10vmin;
+}
+.nofill svg{
+	fill: none;
+}
+
+
+.checkboxes{
+	margin-top: 25vmin;
+	text-align: left;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+%#	background-color: pink;
+}
+
+
+.bottom{
+	width: 24.5vmin;
+	display: inline-block;
+}

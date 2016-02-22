@@ -1,0 +1,127 @@
+html, body {
+  height: 100%;
+  width: 170vw;
+  /* left panel is 70vmin, and right board is 100vw.  We resort to JS, since calc() doesn't support this. */
+  margin: 0;
+  font-size: 62.5%;
+  /* 1 rem will now be equivalent to 10px (but adjust with page) ]*/
+  cursor: default; }
+
+html, body {
+  overflow-y: hidden;
+  overflow-x: scroll; }
+
+#container {
+  position: relative;
+  float: right;
+  width: 100vw;
+  height: 100%; }
+
+#promote {
+  position: absolute;
+  width: 50vmin;
+  height: 26vmin;
+  top: 35%;
+  left: 35%;
+  padding: 2vmin;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white; }
+
+#promotespacer {
+  height: 3vmin; }
+
+#promotepieces {
+  background-color: red;
+  display: inline-block; }
+
+svg {
+  height: 100%;
+  width: 100%; }
+
+path {
+  stroke-width: 1.5; }
+
+.onepointsix {
+  stroke-width: 1.6;
+  stroke-linecap: round; }
+
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+#left {
+  float: left;
+  height: 100%;
+  width: 50vmin;
+  /*width is applied to the CONTENT.  padding therefore INCREASES the width even though it's on the inside of the box*/
+  padding-left: 10vmin;
+  padding-right: 10vmin;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.6rem;
+  text-align: center; }
+
+.dropdown {
+  color: #bbbbbb;
+  overflow: hidden;
+  transition: height 1s ease; }
+  .dropdown > h2 {
+    color: black;
+    margin: 0; }
+
+#login {
+  height: 58.4vmin; }
+
+#preferences {
+  height: 3.6vmin; }
+
+#roomname {
+  width: 9vmin; }
+
+#username {
+  width: 30vmin;
+  margin: auto; }
+
+.inputcolor {
+  width: 7vmin; }
+
+.button {
+  border-radius: 8px;
+  background-color: #bbbbbb;
+  color: white;
+  padding-top: 3.1vmin;
+  padding-bottom: 3.1vmin;
+  text-align: center; }
+
+.displaypiece {
+  text-align: left;
+  display: inline-block;
+  height: 10vmin;
+  width: 10vmin; }
+
+.descriptionbox {
+  padding-top: 0.8vmin;
+  display: inline-block;
+  text-align: center;
+  height: 9.2vmin;
+  width: 14.25vmin; }
+
+.smallsvg {
+  display: inline-block;
+  height: 10vmin;
+  width: 10vmin; }
+
+.nofill svg {
+  fill: none; }
+
+.checkboxes {
+  margin-top: 25vmin;
+  text-align: left; }
+
+.bottom {
+  width: 24.5vmin;
+  display: inline-block; }

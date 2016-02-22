@@ -1,0 +1,111 @@
+html, body{
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	font-size: 62.5%; /* 1 rem will now be equivalent to 10px (but adjust with page) */
+}
+svg{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+path{
+	stroke-width: 1.5;
+}
+.onepointsix{
+	stroke-width: 1.6;
+	stroke-linecap: round;
+}
+.none{
+	fill: none;
+}
+.white{
+	stroke: #fff;
+	fill: #becfcf;
+}
+.black{
+	stroke: #000;
+	fill: #363636;
+}
+.whitesquares{
+	fill: #4dffff;
+	background-color: #4dffff;
+}
+.blacksquares{
+	fill: #4d4dff;
+	background-color: #4d4dff;
+}
+#left{
+	float: left;
+	background: #ffffff;
+	width: 50vmin; /*width is applied to the CONTENT.  padding therefore INCREASES the width even though it's on the inside of the box*/
+	height: 100%;
+	padding-left: 10vmin;
+	padding-right: 10vmin;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.6rem;
+	text-align: center;
+}
+#container{
+	font-size: 1.3rem;
+}
+.checkboxes{
+	margin-top: 25vmin;
+	text-align: left;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+%#	background-color: pink;
+}
+.button{
+	border-radius: 8px;
+	background-color: #bbb;
+	color: white;
+	padding-top: 4.0rem;
+	padding-bottom: 4.0rem;
+	text-align: center;
+}
+.button:hover{
+	background-color: #4d4dff;
+}
+.button:active{
+	background-color: #4dffff;
+}
+.bottom{
+	width: 24.5vmin;
+	display: inline-block;
+}
+#discard{
+	float: left;
+}
+#save{
+	float: right;
+}
+.displaypiece{
+	text-align: left;
+	display: inline-block;
+	height: 10vmin;
+	width: 10vmin;
+}
+.descriptionbox{
+	padding-top:0.8vmin;
+	display: inline-block;
+	text-align: center;
+%#	background-color: pink;
+	height: 9.2vmin;
+	width: 14.25vmin;
+}
+.descriptionbox p{
+%#	vertical-align: middle;
+}
+.descriptionbox span{
+%#	vertical-align: middle;
+}
+.smallsvg{
+	display: inline-block;
+	height: 10vmin;
+	width: 10vmin;
+}
+.nofill svg{
+	fill: none;
+}

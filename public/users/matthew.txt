@@ -1,0 +1,55 @@
+$jss = {
+         '.white' => {
+                     'fill' => '#aaaaaa',
+                     'stroke' => '#ffffff'
+                   },
+         '#preferences' => {
+                           'height' => '58.4vmin'
+                         },
+         '#promote' => {
+                       'left' => '503.19000000000005px',
+                       'top' => '281.04999999999995px'
+                     },
+         '#html' => {
+                    'width' => '2002.1px'
+                  },
+         '#login' => {
+                     'height' => '3.6000000000000014vmin'
+                   },
+         '.button:active' => {
+                             'background-color' => 'rgb(232, 197, 112)'
+                           },
+         'h2:active' => {
+                        'color' => 'rgb(232, 197, 112)'
+                      },
+         '#square24' => {
+                        'fill' => '#aa6644'
+                      },
+         'h2:hover' => {
+                       'color' => 'rgb(94, 17, 13)'
+                     },
+         '.button:hover' => {
+                            'background-color' => 'rgb(94, 17, 13)'
+                          },
+         '.blacksquares' => {
+                            'fill' => '#5e110d',
+                            'background-color' => 'rgb(94, 17, 13)'
+                          },
+         '.whitesquares' => {
+                            'fill' => '#e8c570',
+                            'background-color' => 'rgb(232, 197, 112)'
+                          },
+         '#body' => {
+                    'width' => '2002.1px'
+                  },
+         '.black' => {
+                     'fill' => '#555555',
+                     'stroke' => '#000000'
+                   }
+       };
+
+
+$sound = 1;
+
+$highlight = "#a64";
+

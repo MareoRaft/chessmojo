@@ -1,0 +1,52 @@
+$jss = {
+         '.white' => {
+                     'fill' => '#ffffff',
+                     'stroke' => '#808080'
+                   },
+         '#preferences' => {
+                           'height' => '58.4vmin'
+                         },
+         '#promote' => {
+                       'left' => '503.19000000000005px',
+                       'top' => '281.04999999999995px'
+                     },
+         '#html' => {
+                    'width' => '2002.1px'
+                  },
+         '#login' => {
+                     'height' => '3.6vmin'
+                   },
+         '.button:active' => {
+                             'background-color' => 'white'
+                           },
+         'h2:active' => {
+                        'color' => 'white'
+                      },
+         'h2:hover' => {
+                       'color' => 'black'
+                     },
+         '.button:hover' => {
+                            'background-color' => 'black'
+                          },
+         '.blacksquares' => {
+                            'fill' => '#000000',
+                            'background-color' => 'black'
+                          },
+         '.whitesquares' => {
+                            'fill' => '#ffffff',
+                            'background-color' => 'white'
+                          },
+         '#body' => {
+                    'width' => '2002.1px'
+                  },
+         '.black' => {
+                     'fill' => '#000000',
+                     'stroke' => '#808080'
+                   }
+       };
+
+
+$sound = 1;
+
+$highlight = "yellow";
+

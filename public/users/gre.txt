@@ -1,0 +1,58 @@
+$jss = {
+         '.white' => {
+                     'fill' => 'rgb(190, 207, 207)',
+                     'stroke' => 'rgb(255, 255, 255)'
+                   },
+         '#square74' => {
+                        'fill' => 'rgb(255, 255, 0)'
+                      },
+         '#preferences' => {
+                           'height' => '58.4vh'
+                         },
+         '#promote' => {
+                       'left' => '510.21000000000004px',
+                       'top' => '271.95px'
+                     },
+         '#html' => {
+                    'width' => '1983.9px'
+                  },
+         '#login' => {
+                     'height' => '3.6000000000000014vh'
+                   },
+         '.button:active' => {
+                             'background-color' => 'black'
+                           },
+         '#roomname' => {
+                        'color' => 'black'
+                      },
+         'h2:active' => {
+                        'color' => 'black'
+                      },
+         'h2:hover' => {
+                       'color' => 'green'
+                     },
+         '.button:hover' => {
+                            'background-color' => 'green'
+                          },
+         '.blacksquares' => {
+                            'fill' => 'rgb(0, 128, 0)',
+                            'background-color' => 'green'
+                          },
+         '.whitesquares' => {
+                            'fill' => 'rgb(0, 0, 0)',
+                            'background-color' => 'black'
+                          },
+         '#body' => {
+                    'width' => '1983.9px'
+                  },
+         '.black' => {
+                     'fill' => 'rgb(68, 68, 68)',
+                     'stroke' => 'rgb(0, 0, 0)'
+                   }
+       };
+
+
+$sound = 1;
+
+$highlight = "yellow";
+

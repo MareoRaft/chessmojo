@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html id='html'> <!-- id is for jss -->
+	<head>
+		<meta charset='UTF-8'>
+	    <title>Chessmojo</title>
+		%#<link rel='stylesheet' type='text/css' href='/cssreset.css' />
+	    <link rel='stylesheet' href='<%= url_for('style')->to_abs %>' /> <!-- css before javascript because the javascript will grab info from the css (colors) -->
+		%#<script src='/jQuery.js' ></script>
+		<script src='//code.jquery.com/jquery-1.11.0.min.js'></script>
+		<script src='//code.jquery.com/jquery-migrate-1.2.1.min.js'></script>
+		<script src='/jss.js' ></script>
+		%# we should test changing the below to == in the future...
+		<script src='<%== url_for('javascript')->to_abs."?roomname=$roomname&username=$username&colorrequested=$colorrequested" %>'></script>
+	</head>
+	<body id='body'> <!-- id is for jss -->
+		<audio id='clunk'>
+			<source src='/clunk.wav' preload='auto'>
+		</audio>
+		<div id='left'>
+			<h1>Chessmojo!</h1>
+			(swipe left/right to show/hide this panel)<br />
+			<br />
+			Play as <select id='selectcolor'><option value='open'>open</option><option value='white'>white</option><option value='black'>black</option><option value='both'>both</option><option value='a spectator'>none</option></select><br />
+%#				Timer: <select><option value='none'>none</option><option value='20'>20 min</option><option value='15'>15 min</option><option value='10'>10 min</option><option value='5'>5 min</option></select><br />
+			Room: <input id='roomname' placeholder='optional' /><br />
+			<br />
+			<div id='start' class='button'>Start Game!</div><br />
+
+			<div id='login' class='dropdown'>
+				<h2 onclick='changeHeight()'>Login</h2>
+				<br />
+				<input id='username' placeholder='Username' /> <input type='button' value='Login' /><br />
+				<br />
+				<div id='currentusername'><% $temp::s='You are not logged in.'; if( $username ne 'default' ){ $temp::s='You are logged in as $username.' } %><%== $temp::s; %></div><br />
+				<div id='currentroom'>You are in room <a id='roomname'><%== $roomname; %></a>.</div><br />
+				<div id='currentcolor'>You are a spectator.</div>
+			</div>
+			<div id='preferences' class='dropdown'>
+				<h2 onclick='changeHeight()'>Preferences</h2>
+				<br />
+				<br />
+				<!-- begin svg stuff -->
+					<div class='displaypiece blacksquares left'></div>
+					<div class='descriptionbox left'><span>black<br />square color<br /><input class='inputcolor' data-object='square' data-color='black' placeholder='<%== $blacksquarecolor; %>' /></span></div>
+					<div class='displaypiece whitesquares right'></div>
+					<div class='descriptionbox right'><span>white<br />square color<br /><input class='inputcolor' data-object='square' data-color='white' placeholder='<%== $whitesquarecolor; %>'/></span></div>
+					<br />
+					<div class='displaypiece whitesquares nofill left'>
+						<%== SVG::renderInlinePawnOfColor( 'black', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div class='descriptionbox left'><span>black<br />line color<br /><input class='inputcolor' data-object='stroke' data-color='black' placeholder='<%== $blackstrokecolor; %>' /></span></div>
+					<div class='displaypiece blacksquares nofill right'>
+						<%== SVG::renderInlinePawnOfColor( 'white', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div class='descriptionbox right'><span>white<br />line color<br /><input class='inputcolor' data-object='stroke' data-color='white' placeholder='<%== $whitestrokecolor; %>' /></span></div>
+					<br />
+					<div class='displaypiece blacksquares left'>
+						<%== SVG::renderInlinePawnOfColor( 'black', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div class='descriptionbox left'><span>black<br />piece color<br /><input class='inputcolor' data-object='piece' data-color='black' placeholder='<%== $blackpiececolor; %>' /></span></div>
+					<div class='displaypiece whitesquares right'>
+						<%== SVG::renderInlinePawnOfColor( 'white', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div class='descriptionbox right'><span>white<br />piece color<br /><input class='inputcolor' data-object='piece' data-color='white' placeholder='<%== $whitepiececolor; %>' /></span></div>
+				<!-- end svg stuff -->
+				<br />
+				<div class='checkboxes'>
+					<input type='checkbox' name='sound' checked> Play sound when a move is made</input><br />
+					Highlight opponent's move with color <input id='highlight' class='inputcolor' placeholder='<%== $highlightcolor; %>' /><br />
+				</div>
+				<br />
+				%#<button>i'm a real button</button><br />
+				<div class='button bottom left' onclick='resetPrefs()'>Discard Changes</div>
+				<div class='button bottom right' onclick='savePrefs()'>Save to Profile</div>
+			</div>
+		</div>
+		<div id='container'>
+			<%== $mojo::svg->renderInline( id=>'bigsvg', viewBox=>'0 0 10 10' ) %>
+			<div id='promote'>
+				<div id='promotespacer'></div>
+				What would you like to promote your pawn to?<br />
+				<br />
+				<div id='promotepieces'>
+					<div id='queen' class='displaypiece whitesquares left'>
+						<%== SVG::renderInlinePieceOfType( 'queen', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div id='rook' class='displaypiece blacksquares left'>
+						<%== SVG::renderInlinePieceOfType( 'rook', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div id='bishop' class='displaypiece whitesquares left'>
+						<%== SVG::renderInlinePieceOfType( 'bishop', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+					<div id='knight' class='displaypiece blacksquares left'>
+						<%== SVG::renderInlinePieceOfType( 'knight', class=>'smallsvg', viewBox=>'0 0 1 1' ) %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

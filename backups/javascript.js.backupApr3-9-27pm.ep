@@ -1,0 +1,119 @@
+var ws
+var lcmoves // great because we don't have to send to server.  this IS local, should NOT show up on opponent's computer (must fix)
+var height = 3.6
+var color = '<%== $color; %>'
+var allchanges
+var originalcolors = {
+	'.white': { 'stroke':'#fff', 'fill':'#becfcf' },
+	'.black': { 'stroke':'#000', 'fill':'#363636' },
+	'.whitesquares': { 'fill':'#4dffff', 'background-color':'#4dffff' },
+	'.blacksquares': { 'fill':'#4d4dff', 'background-color':'#4d4dff' },
+	'h2:hover': { 'color':'#4d4dff' },
+	'h2:active': { 'color':'#4dffff' },
+	'.button:hover': { 'background-color':'#4d4dff' },
+	'.button:active': { 'background-color':'#4dffff' }
+}
+setColors(originalcolors)
+
+var usercolors
+<% my $str=''; if( $username ne '' ){ $str = mojo::getUserInfo($username) } %><%== $str; %>
+var username = '<%== $username; %>'
+var roomname = '<%== $roomname; %>'
+var color = '<%== $color; %>'
+
+if ("WebSocket" in window) ws = new WebSocket('<%= url_for('socket')->to_abs %>'+'?room='+roomname+'&color='+color);
+if(typeof(ws) !== 'undefined') {
+	function saveColors() {
+		allchanges = jss.get()
+<%#		ws.send( JSON.stringify( jQuery.extend( allchanges, { 'command':'saveuserinfo', 'username':'albert', 'color':'green' } ) ) ) %>
+		ws.send( JSON.stringify({ 'command':'saveuserinfo', 'username':username, 'info':allchanges }) )
+	}
+	function setColors(jssobj) {
+		Object.keys(jssobj).forEach( function (key) {
+			jss.set( key, jssobj[key] )
+		})
+	}
+	function resetColors(){
+		setColors(originalcolors)
+		if(typeof(usercolors) !== 'undefined'){ setColors(usercolors) }
+		setColors(allchanges)
+	}
+	function changeColor( object, color, fill ) {
+		var colortopseudo = {}; colortopseudo['white'] = 'active'; colortopseudo['black'] = 'hover';
+		if( object == 'square' ){
+			jss.set( '.button:'+colortopseudo[color], { 'background-color':fill } )
+			jss.set( 'h2:'+colortopseudo[color], { 'color':fill } )
+			jss.set( '.'+color+'squares', { 'background-color':fill, 'fill':fill })
+		}
+		else if( object == 'piece' ) jss.set( '.'+color, { 'fill':fill } );
+		else if( object == 'stroke' ) jss.set( '.'+color, { 'stroke':fill } );
+	}
+	$(document).ready(function(){
+		$('.inputcolor').keyup(function(event){ if( event.which==13 ){
+			var object = $(this).data('object')
+			var color = $(this).data('color')
+			var fill = $(this).val()
+			changeColor( object, color, fill )
+		}})
+		/*$('#square11').click(function(){
+			alert('yeah')
+			x = $(this).attr('x')
+			y = 9 - $(this).attr('y')
+			ws.send( JSON.stringify({'command': 'squareclicked', 'x': x, 'y': y}) )
+		})*/
+	})
+	function changeHeight() {
+		jss.set( '#login', { 'height':height+'vmin' } )
+		height = 62-height
+		jss.set( '#preferences', { 'height':height+'vmin' } )
+	}
+	function unfillSquares(coords) {
+		for (i=0; i<coords.length; ++i){
+			document.getElementById(coords[i]).removeAttribute('style')
+		}
+	}
+	function sendCoord(evt) {
+		x = evt.currentTarget.getAttribute('x')
+		y = evt.currentTarget.getAttribute('y')
+		ws.send( JSON.stringify({'command': 'squareclicked', 'x': x, 'y': 9-y, 'color':color }) )
+	}
+	function sendMessage(evt,message) {
+			ws.send( JSON.stringify({'command': 'donothing', 'message': message}) )
+	}
+	ws.onmessage = function (event) {
+		var json = JSON.parse(event.data)
+		if( typeof(json.y) !== 'undefined' ){ json.y = 9-json.y }
+
+		//document.getElementById('container').innerHTML += ' Command is "'+json.command+'".' + '<br />'
+		if( typeof(json.message) !== 'undefined' ){
+			document.getElementById('container').innerHTML += ' message is "'+json.message+'".' + '<br /><br />'
+		}
+
+		if( json.command=='fillsquares' ){
+			if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+			for (i=0; i<json.moves.length; ++i){
+				document.getElementById(json.moves[i]).setAttribute('style',"opacity:0.5")
+			}
+			lcmoves = json.moves
+		}
+
+		if( json.command=='movepiece' ){
+			if( typeof(lcmoves) !== 'undefined' ){ unfillSquares(lcmoves) }
+			document.getElementById(json.ID).setAttribute('x',json.x)
+			document.getElementById(json.ID).setAttribute('y',json.y)
+		}
+		if( typeof(json.IDtoremove) !== 'undefined' ){
+			document.getElementById(json.IDtoremove).setAttribute('x',-1)
+			document.getElementById(json.IDtoremove).setAttribute('y',-1)
+		}
+
+
+	}
+	ws.onopen = function (event) {
+		document.getElementById('container').innerHTML += ' jsworking. '
+		sendMessage(event,'WebSocket support works! ♥')
+	}
+}
+else {
+	document.body.innerHTML += 'Browser does not support WebSockets.'
+}
