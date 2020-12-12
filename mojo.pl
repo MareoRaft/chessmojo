@@ -1,15 +1,14 @@
 package mojo;
 
+# Add current directory to perl path (@INC) so we can load local .pm files
 use FindBin;
 use lib "$FindBin::Bin/";
-use lib "$FindBin::Bin/../";
-use lib "$FindBin::Bin/../Library/Perl/5.16/Downloads";
-use lib "$FindBin::Bin/../Library/Perl/5.16/Custom";
 
 use Mojo::Cache;
-use Mojolicious::Lite; #use strict; #use warnings;
+use Mojolicious::Lite;
 use Mojolicious::Static;
 use Mojo::IOLoop;
+use Data::Dumper;
 
 use SVG;
 use room;
@@ -26,8 +25,6 @@ close( $fh ) or die "Could not CLOSE the lexis!";
 
 ##################################### HELPER FUNCTIONS ###################################
 sub trim{ my ($i) = @_; $i =~ s/^\s+|\s+$//g; $i }
-
-use Data::Dumper;
 
 sub saveUserPrefs{
 	my ($username,$prefs) = @_;
