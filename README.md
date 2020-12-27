@@ -22,9 +22,16 @@ A description of the chessmojo project can be found [here](http://matthewlancell
 Direct link is: http://45.55.107.156:8080
 
 
-## Docker kickoff
+## Docker kickoff (dev)
 
-The server deps and kick-off directions are programmatically specified in `prod.Dockerfile`, so the docker image is all you need to launch the project.
+Use the following command:
+
+    docker build -t mvlancellotti/chessmojo:dev -f dev.Dockerfile . && docker run --rm -p 8080:8080 -v $(pwd)/src:/home/matt/work --name chessmojo-container mvlancellotti/chessmojo:dev
+
+
+## Docker kickoff (prod)
+
+The server deps and kick-off directions are programmatically specified in `prod.Dockerfile`, so the docker image is all you need to launch the project:
 
     docker build -t mvlancellotti/chessmojo:prod -f prod.Dockerfile . && docker run --rm -p 8080:8080 --name chessmojo-container mvlancellotti/chessmojo:prod
 
