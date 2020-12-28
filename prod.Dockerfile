@@ -13,7 +13,7 @@ RUN cpan install FindBin
 RUN cpan install Data::Dumper
 
 
-COPY src src
+COPY src .
 
 
 # CMD ["hypnotoad", "mojo.pl"]
