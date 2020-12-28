@@ -3,7 +3,8 @@ function updateWidth() { // a fix due to lack of css support for calc( vw )
 	var vw = $(window).width() / 100
 	var vh = $(window).height() / 100
 	var vmin = Math.min( vw, vh )
-	var width = 70*vmin + 100*vw
+	// A too-small width causes the container to disappear.  I AM FAIRLY CONFIDENT that if the body is not big enough to fit the container, the container (being float:right) will appear BELOW the screen.  Hence I add 1 extra pixel to the width here, so that the calculated width is never slightly too small (maybe due to some rounding during browser rendering).
+	var width = 70*vmin + 100*vw + 1
 	jss.set( '#html', { 'width':width+'px' } )
 	jss.set( '#body', { 'width':width+'px' } )
 	var left = 100/2*vw - 54/2*vmin // this is for the promote pop up box...
