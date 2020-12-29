@@ -1,5 +1,9 @@
+console.log('1u12')
 %###################################### FORMATTING #######################################
 function updateWidth() { // a fix due to lack of css support for calc( vw )
+	const body = jss.get('#body')
+	console.log('GOT body:' + body)
+
 	var vw = $(window).width() / 100
 	console.log(`vw:${vw}`)
 	var vh = $(window).height() / 100
@@ -215,5 +219,6 @@ ws.onopen = function(event) {
 %#	sendMessage(event,'WebSocket support works! ♥')
 }
 ws.onclose = function() {
-	alert('browser websocket closing! :)  Connection closed, goodbye!')
+	// temp disable for faster development
+	// alert('browser websocket closing! :)  Connection closed, goodbye!')
 }

@@ -6,6 +6,7 @@ use lib "$FindBin::Bin/";
 
 use Mojo::Cache;
 use Mojolicious::Lite;
+plugin AutoReload => {};
 use Mojolicious::Static;
 use Mojo::IOLoop;
 use Data::Dumper;
