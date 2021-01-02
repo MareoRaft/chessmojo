@@ -7,11 +7,18 @@ html, body {
   /* 1 rem will now be equivalent to 10px (but adjust with page) ]*/
   cursor: default; }
 
-html, body {
+html {
+overflow-y: hidden;
+overflow-x: scroll;
+}
+
+body {
   overflow-y: hidden;
-  overflow-x: scroll; }
+  overflow-x: hidden; }
 
 #container {
+overflow-y:hidden; /* gets rid of unwanted vertical scrollbar on container */
+
             overflow-x: hidden;
             background-color: green;
             margin-left: 70vmin;
