@@ -157,7 +157,8 @@ function sendMessage(evt,message) {
 ws.onmessage = function(event) {
 	var json = JSON.parse(event.data)
 	if( typeof(json.message) !== 'undefined' ){
-		$('#container').append( json.message+'".' + '<br /><br />' )
+		// This exists for troubleshooting reasons.  We disable it when we are not troubleshooting.
+		// $('#container').append( json.message+'".' + '<br /><br />' )
 	}
 	if( json.command=='loadprefs' ){
 		loadPrefs(json.prefs)
