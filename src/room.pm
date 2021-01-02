@@ -117,7 +117,7 @@ sub reverseBoard{
 }
 
 sub definePieceAndEnemy{
-	my $room = shift; #print "indefinePieceAndEnemy";
+	my $room = shift;
 	my ($x,$y,%options) = @_;
 	$room->pushPieces( piece->new( %options, 'room'=>$room, 'color'=>'white', 'coord'=>[$x,$y] ) );
 	$room->pushPieces( piece->new( %options, 'room'=>$room, 'color'=>'black', 'coord'=>[$x,9-$y] ) );
@@ -185,7 +185,7 @@ sub makeMove{
 
 	if( $piece->type eq 'king' ){ $room->cannotCastle($piece->color,'left') and $room->cannotCastle($piece->color,'right') }
 	elsif( $piece->type eq 'rook' ){
-		if( $piece->X == 1 ){ $room->cannotCastle($piece->color,'left') } # accidentally was cannotcastle before :(
+		if( $piece->X == 1 ){ $room->cannotCastle($piece->color,'left') }
 		elsif( $piece->X == 8 ){ $room->cannotCastle($piece->color,'right') }
 	}
 
