@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- following Joe Sager's example on https://stackoverflow.com/questions/19089933/how-to-position-two-elements-side-by-side-using-css -->
+<html lang='en'>
+<head>
+	<meta charset='utf-8'>
+	<title></title>
+	<!-- <link rel='stylesheet' href='style.css'> -->
+	<!-- <script src='script.js'></script> -->
+	<style>
+		#left {
+			background-color: lightblue;
+			position: absolute;
+			width: 50vmin;
+			height: 100%;
+			padding-left: 10vmin;
+			padding-right: 10vmin;
+
+		}
+		#container {
+			background-color: green;
+			margin-left: 70vmin;
+
+			width: 100vw;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<div id='left'>
+	I'm the left.
+</div>
+<div id='container'>
+	I'm the container.
+</div>
+
+</body>
+</html>
