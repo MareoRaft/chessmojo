@@ -1,0 +1,9 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - 8080:3000
+    volumes:
+      - ./src:/home/matt/work

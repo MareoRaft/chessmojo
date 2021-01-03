@@ -24,9 +24,9 @@ Direct link is: http://45.55.107.156:8080
 
 ## Docker kickoff (dev)
 
-Use the following command:
+Use the `docker-compose.yml` file with the following command:
 
-	docker build -t mvlancellotti/chessmojo:dev -f dev.Dockerfile . && docker run --rm -p 8080:3000 -v $(pwd)/src:/home/matt/work --name chessmojo-container mvlancellotti/chessmojo:dev
+	docker-compose up
 
 
 ## Docker kickoff (prod)
