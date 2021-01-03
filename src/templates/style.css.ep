@@ -8,21 +8,19 @@ html, body {
   cursor: default; }
 
 html {
-overflow-y: hidden;
-overflow-x: scroll;
+  overflow-y: hidden;
+  overflow-x: scroll;
 }
 
 body {
   overflow-y: hidden;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+}
 
 #container {
-overflow-y:hidden; /* gets rid of unwanted vertical scrollbar on container */
-
-            overflow-x: hidden;
-            background-color: green;
-            margin-left: 70vmin;
-
+  overflow-y:hidden; /* gets rid of unwanted vertical scrollbar on container */
+  overflow-x: hidden;
+  margin-left: 70vmin;
   width: 100vw;
   height: 100%; }
 
@@ -64,10 +62,7 @@ path {
   float: right; }
 
 #left {
-            background-color: lightblue;
-            position: absolute;
-
-
+  position: absolute;
   height: 100%;
   width: 50vmin;
   /*width is applied to the CONTENT.  padding therefore INCREASES the width even though it's on the inside of the box*/
