@@ -207,10 +207,10 @@ ws.onmessage = function(event) {
 	}
 }
 ws.onopen = function(event) {
-%#	$('#container').append(' jsworking. ')
-%#	sendMessage(event,'WebSocket support works! ♥')
+	// $('#container').append(' jsworking. ')
+	// sendMessage(event,'WebSocket support works! ♥')
 }
 ws.onclose = function() {
-	// temp disable for faster development
-	// alert('browser websocket closing! :)  Connection closed, goodbye!')
+	// We can disable this during development for convenience, but in production, it's useful for the user.
+	alert('browser websocket closing! :)  Connection closed, goodbye!  Please reload if you would like to continue playing.')
 }
