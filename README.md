@@ -1,6 +1,8 @@
 # chessmojo!
 Play chess with anybody online :)
 
+![](banner.png)
+
 You can access the site [here](http://learnnation.org/chess.html)!
 
 A description of the chessmojo project can be found [here](http://matthewlancellotti.com/chessmojo/).
